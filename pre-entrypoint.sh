@@ -24,4 +24,4 @@ if [ -n "$JOIN_WAN" ]; then
   JOIN_WAN=$( echo $JOIN_WAN | tr "," "\n" | sed 's/^/-retry-join-wan /' | tr "\n" " " | sed 's/,$/\n/' )
 fi
 
-echo "docker-entrypoint.sh agent -advertise $WEAVE_IP -retry-max 5 -retry-max-wan 5 $JOIN $JOIN_WAN $@"
+docker-entrypoint.sh agent -advertise $WEAVE_IP -retry-max 5 -retry-max-wan 5 $JOIN $JOIN_WAN $@
