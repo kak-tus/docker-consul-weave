@@ -9,9 +9,9 @@ JOIN_WAN=""
 for i in $DC_LIST
 do
   if [ $i == $DC ]; then
-    JOIN=$( drill $i.consul.weave.local | fgrep IN | fgrep -v ';' | fgrep -v $WEAVE_IP | awk '{print $5}' | tr "\n" "," | sed 's/,$/\n/' )
+    JOIN=$( drill $i.consul.weave.local | fgrep IN | fgrep -v ';' | fgrep -v $WEAVE_IP | awk '{print $5}' | grep -E -o '^[0-9\.]+$' | tr "\n" "," | sed 's/,$/\n/' )
   else
-    IPS=$( drill $i.consul.weave.local | fgrep IN | fgrep -v ';' | fgrep -v $WEAVE_IP | awk '{print $5}' | tr "\n" "," | sed 's/,$/\n/' )
+    IPS=$( drill $i.consul.weave.local | fgrep IN | fgrep -v ';' | fgrep -v $WEAVE_IP | awk '{print $5}' | grep -E -o '^[0-9\.]+$' | tr "\n" "," | sed 's/,$/\n/' )
     JOIN_WAN=$( echo "$IPS,$JOIN_WAN" | sed 's/,$/\n/')
   fi
 done
