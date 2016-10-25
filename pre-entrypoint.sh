@@ -12,7 +12,9 @@ do
     JOIN=$( drill $i.consul.weave.local | fgrep IN | fgrep -v ';' | fgrep -v $WEAVE_IP | awk '{print $5}' | grep -E -o '^[0-9\.]+$' | tr "\n" "," | sed 's/,$//' )
   else
     IPS=$( drill $i.consul.weave.local | fgrep IN | fgrep -v ';' | fgrep -v $WEAVE_IP | awk '{print $5}' | grep -E -o '^[0-9\.]+$' | tr "\n" "," | sed 's/,$//' )
-    JOIN_WAN=$( echo "$IPS,$JOIN_WAN" | sed 's/,$//')
+    if [ -n "$IPS" ]; then
+      JOIN_WAN=$( echo "$IPS,$JOIN_WAN" | sed 's/,$//')
+    fi
   fi
 done
 
