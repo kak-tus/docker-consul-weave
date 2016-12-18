@@ -32,4 +32,9 @@ if [ -n "$JOIN_WAN_COMPATIBLE" ]; then
   JOIN_WAN_COMPATIBLE=$( echo $JOIN_WAN_COMPATIBLE | tr "," "\n" | sed 's/^/-retry-join-wan /' | tr "\n" " " | sed 's/,$//' )
 fi
 
-docker-entrypoint.sh agent -advertise $WEAVE_IP -retry-max 5 -retry-max-wan 5 $JOIN $JOIN_WAN $JOIN_WAN_COMPATIBLE $@
+docker-entrypoint.sh agent -advertise $WEAVE_IP -retry-max 5 -retry-max-wan 5 $JOIN $JOIN_WAN $JOIN_WAN_COMPATIBLE $@ &
+child=$!
+
+trap "kill $child" SIGTERM
+wait "$child"
+
