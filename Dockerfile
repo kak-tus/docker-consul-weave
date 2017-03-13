@@ -1,4 +1,4 @@
-FROM consul:v0.7.0
+FROM consul:v0.7.5
 
 COPY pre-entrypoint.sh /bin/pre-entrypoint.sh
 
