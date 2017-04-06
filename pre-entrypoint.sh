@@ -39,6 +39,5 @@ fi
 docker-entrypoint.sh agent $bootstrap -advertise $WEAVE_IP -retry-max 5 -retry-max-wan 5 $JOIN $JOIN_WAN $JOIN_WAN_COMPATIBLE $@ &
 child=$!
 
-trap "kill $child" SIGTERM
+trap "kill $child" SIGTERM SIGINT
 wait "$child"
-
